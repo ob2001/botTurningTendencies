@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Import all data files for one bot
-def readfile(botnum: str):
+def readbotfile(botnum: str):
     filename = f"../Video Analysis/B{botnum}"
 
     n = 1
@@ -22,11 +22,18 @@ def readfile(botnum: str):
     data = np.array(data)
     return n, headers, data
 
-n, headers, data = readfile("3")
+def readmeasurements():
+    filename = "../Bot measurements.csv"
+    data = np.loadtxt(filename, delimiter = ',', skiprows = 2)
+    return data
+
+n, headers, data = readbotfile("5")
+measurements = readmeasurements()
+print(measurements)
 print(headers)
 
 """ Plotting """
-if(True):
+if(False):
     for i in range(n):
         fig = plt.figure(figsize = (17, 8))
         ax1 = fig.add_subplot(121)
