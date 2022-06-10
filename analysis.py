@@ -22,7 +22,7 @@ def readbotfile(botnum: str):
 
 # Read in voltage and time measurement data
 def readvolts():
-    filename = "../Bot measurements.csv"
+    filename = "./Bot measurements.csv"
     with open(filename) as f:
         headersl1 = f.readline().split(',')
         headersl2 = f.readline().split(',')
