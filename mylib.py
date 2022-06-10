@@ -42,4 +42,5 @@ def readvolts():
     dunc = np.array(temp[:, 37:49]).transpose()
     cdur = np.array(temp[:, 49:61]).transpose()
     data = {'cycle': cycle, 'voltage': volt, 'vuncertainty': vunc, 'dur': dur, 'duncertainty': dunc, 'cdur': cdur}
-    return headersl1, headersl2, data
+    botdict = {"3": 0, "5": 1, "7": 2, "10": 3, "14": 4, "15": 5, "16": 6, "17": 7, "19": 8, "?": 9, "B": 10, "D": 11}
+    return headersl1, headersl2, data, botdict
