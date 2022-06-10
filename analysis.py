@@ -1,4 +1,6 @@
+import sys
 import os
+import argparse
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -36,11 +38,17 @@ def readvolts():
     data = {'cycle': cycle, 'voltage': voltage, 'vuncertainty': vuncertainty, 'dur': dur, 'duncertainty': duncertainty, 'cdur': cdur}
     return headersl1, headersl2, data
 
-n, headers, data = readbotfile(5)
+parser = argparse.ArgumentParser()
+parser.add_argument('botnum', type = str)
+parser.add_argument('--traj', action = "store_true")
+parser.add_argument('--volt', action = "store_true")
+args = parser.parse_args()
+
+n, headers, data = readbotfile(args.botnum)
 mheaders1, mheaders2, measurements = readvolts()
 
 """ Plotting """
-if(False):
+if(args.traj):
     for i in range(n):
         fig = plt.figure(figsize = (17, 8))
         ax1 = fig.add_subplot(121)
@@ -49,7 +57,7 @@ if(False):
         ax2.plot(-data[i,:,6]*2*np.pi/360, data[i,:,5])
         plt.show()
 
-if(True):
+if(args.volt):
     fig = plt.figure(figsize = (12, 9))
     ax1 = fig.add_subplot(111)
     ax1.plot(measurements['cdur'][1], measurements['voltage'][1])
