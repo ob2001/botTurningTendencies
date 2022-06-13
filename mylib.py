@@ -64,6 +64,8 @@ def readvolts():
     botdict = {"3": 0, "5": 1, "7": 2, "10": 3, "14": 4, "15": 5, "16": 6, "17": 7, "19": 8, "?": 9, "B": 10, "D": 11}
     return headersl1, headersl2, data, botdict
 
+# Step through a list which may have multiple occurences of None
+# consecutively and remove all but one of those Nones
 def trimnone(arr):
     flag, newarr = False, []
     for i in range(len(arr)):
@@ -75,4 +77,4 @@ def trimnone(arr):
             newarr.append(None)
         else:
             continue
-    return newarr
+    return np.array(newarr)
