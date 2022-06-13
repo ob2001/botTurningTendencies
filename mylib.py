@@ -13,7 +13,7 @@ def arguments():
     args = parser.parse_args()
     return args
 
-# Read in all data files for one bot
+# Read in all data files for selected bot
 def readbotfile(botnum: str):
     filename = f"../Video Analysis/B{botnum}"
 
@@ -63,3 +63,16 @@ def readvolts():
     # Create a dictionary to associate bot numbers with order in list
     botdict = {"3": 0, "5": 1, "7": 2, "10": 3, "14": 4, "15": 5, "16": 6, "17": 7, "19": 8, "?": 9, "B": 10, "D": 11}
     return headersl1, headersl2, data, botdict
+
+def trimnone(arr):
+    flag, newarr = False, []
+    for i in range(len(arr)):
+        if arr[i] != None:
+            newarr.append(arr[i])
+            flag = False
+        elif flag != True:
+            flag = True
+            newarr.append(None)
+        else:
+            continue
+    return newarr

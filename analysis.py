@@ -2,8 +2,10 @@ from mylib import *
 import matplotlib.pyplot as plt
 
 def trimradius(X, Y, R, val):
-    newarr = [[x, y] for x, y, r in zip(X, Y, R) if r < val]
-    return np.array(newarr).transpose()
+    xnew, ynew = np.array([[x, y] if r < val else [None, None] for x, y, r in zip(X, Y, R)]).transpose()
+    xnew, ynew = trimnone(xnew), trimnone(ynew)
+
+    return xnew, ynew
 
 args = arguments()
 n, headers, data = readbotfile(args.botnum)
@@ -12,11 +14,10 @@ mheaders1, mheaders2, measurements, botdict = readvolts()
 """ Plotting """
 # Plot trajectory of chosen bot for all 1-minute periods
 if(args.traj):
-    # Number of plots along horizontal edge
-    dim = 4
-    axs = plt.subplots(math.ceil(len(data)/dim), dim, figsize = (18, 9))
+    xdim = 4 # Number of plots along horizontal edge
+    axs = plt.subplots(math.ceil(len(data)/xdim), xdim, figsize = (18, 9))
     for i in range(n - 1):
-        axs[1][math.floor(i/dim)][i % dim].plot(data[i,:,2], data[i,:,3])
+        axs[1][math.floor(i/xdim)][i % xdim].plot(data[i,:,2], data[i,:,3])
     plt.show()
 
 # Plot the voltage of the bot as a funtion of time
@@ -28,7 +29,7 @@ if(args.volt):
 
 # Plot trajectory of bot after trimming unwanted data points
 if(args.trimplot):
-    xnew, ynew = trimradius(data[0,:,2], data[0,:,3], data[0,:,5], 570)
+    xnew, ynew = trimradius(data[0,:,2], data[0,:,3], data[0,:,5], 550)
 
     fig = plt.figure(figsize = (18, 9))
     ax1 = fig.add_subplot(121)
