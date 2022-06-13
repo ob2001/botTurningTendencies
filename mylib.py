@@ -13,10 +13,17 @@ def arguments():
     args = parser.parse_args()
     return args
 
-# Read in all data files for selected bot
+# First-order central difference method
+def cdiff(dx, ys):
+    return [(ys[i + 1] - ys[i - 1])/(2*dx) for i in range(1, len(ys) - 1)]
+
+# Second-order central difference method
+def cdiff2(dx, ys):
+    return [4*(ys[i + 1] - 2*ys[i] + ys[i - 1])/dx**2 for i in range(1, len(ys) - 1)]
+
+# Read in all data files for selected bot (for single-bot runs)
 def readbotfile(botnum: str):
     filename = f"../Video Analysis/B{botnum}"
-
     n = 1
     # Get number of runs with this bot
     while(os.path.exists(f"{filename} - {n}.csv")): n += 1
@@ -38,24 +45,12 @@ def readvolts():
         headersl1 = f.readline().split(',')
         headersl2 = f.readline().split(',')
     temp = np.loadtxt(filename, delimiter = ',', skiprows = 2)
-
-    # Cycle number
-    cycle = np.array(temp[:, 0]).transpose()
-
-    # Voltage measurements
-    volt = np.array(temp[:, 1:13]).transpose()
-
-    # Voltage uncertainties
-    vunc = np.array(temp[:, 13:25]).transpose()
-
-    # Cycle duration
-    dur = np.array(temp[:, 25:37]).transpose()
-
-    # Uncertainty in cycle duration
-    dunc = np.array(temp[:, 37:49]).transpose()
-
-    # Cumulative duration
-    cdur = np.array(temp[:, 49:61]).transpose()
+    cycle = np.array(temp[:, 0]).transpose() # Cycle number
+    volt = np.array(temp[:, 1:13]).transpose() # Voltage measurements
+    vunc = np.array(temp[:, 13:25]).transpose() # Voltage uncertainties
+    dur = np.array(temp[:, 25:37]).transpose() # Cycle duration
+    dunc = np.array(temp[:, 37:49]).transpose() # Uncertainty in cycle duration
+    cdur = np.array(temp[:, 49:61]).transpose() # Cumulative duration
 
     # Compile everything into a dictionary for easy access
     data = {'cycle': cycle, 'voltage': volt, 'vuncertainty': vunc, 'dur': dur, 'duncertainty': dunc, 'cdur': cdur}
