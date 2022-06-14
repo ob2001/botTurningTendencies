@@ -1,4 +1,5 @@
 from mylib import *
+import math
 import matplotlib.pyplot as plt
 
 # Calculate average radius of curvature for each path segment
@@ -32,26 +33,26 @@ mheaders1, mheaders2, measurements, botdict = readvolts()
 
 """ Plotting """
 # Plot trajectory of chosen bot for all 1-minute periods
-if(args.traj):
+if(args.traj or args.all):
     xdim = 4 # Number of plots along horizontal edge
     axs = plt.subplots(math.ceil(len(data)/xdim), xdim, figsize = (18, 9))
     for i in range(n - 1):
         axs[1][math.floor(i/xdim)][i % xdim].plot(data[i,:,2], data[i,:,3])
-    if(args.savefigs):
+    if(args.savefigs or args.all):
         plt.savefig(f"B{args.botnum} - trajectories.png")
     plt.show()
 
 # Plot the voltage of the bot as a funtion of time
-if(args.volt):
+if(args.volt or args.all):
     fig = plt.figure(figsize = (12, 9))
     ax1 = fig.add_subplot(111)
     ax1.plot(measurements['cdur'][botdict[args.botnum]], measurements['voltage'][botdict[args.botnum]])
-    if(args.savefigs):
+    if(args.savefigs or args.all):
         plt.savefig(f"B{args.botnum} - voltages.png")
     plt.show()
 
 # Plot trajectory of bot after trimming unwanted data points
-if(args.trimplot):
+if(args.trimplot or args.all):
     xnew, ynew = trimradius(data[0,:,2], data[0,:,3], data[0,:,5], 560)
 
     fig = plt.figure(figsize = (18, 9))
@@ -59,11 +60,16 @@ if(args.trimplot):
     ax2 = fig.add_subplot(122)
     ax1.plot(data[0,:,2], data[0,:,3])
     ax2.plot(xnew, ynew)
-    if(args.savefigs):
-        plt.savefig(f"B{args.botnum} - trimmed plot")
+    if(args.savefigs or args.all):
+        plt.savefig(f"B{args.botnum} - trimmed plot.png")
     plt.show()
 
-if(args.getradii):
+if(args.getradii or args.plotradii or args.all):
     xnew, ynew = trimradius(data[0,:,2], data[0,:,3], data[0,:,5], 560)
     radii = getradii(xnew, ynew, 1/30)
     print(radii)
+    if(args.plotradii or args.all):
+        fig = plt.figure(figsize = (12, 9))
+        ax = fig.add_subplot(111)
+        ax.plot(radii)
+        plt.show()
