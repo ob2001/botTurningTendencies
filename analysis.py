@@ -13,7 +13,7 @@ def getradii(xarr, yarr):
     while(i < len(xarr) - 1):
         n, temp2 = 1, 0
         # Average turning radius over given segment
-        while(i < len(xarr) - 1 and all(elem is not None for elem in xarr[i - 1:i + 2])):
+        while(i < len(xarr) - 1 and not any(xarr[i - 1:i + 2] == None)):
             ### temp1 = (cdiff(xarr, dt, i)*cdiff2(yarr, dt, i) - cdiff(yarr, dt, i)*cdiff2(xarr, dt, i))/(cdiff(xarr, dt, i)**2 + cdiff(yarr, dt, i)**2)**(3/2)
 
             temp1 = getradius(xarr[i - 1: i + 2], yarr[i - 1: i + 2])
