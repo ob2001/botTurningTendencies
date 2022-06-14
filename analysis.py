@@ -1,6 +1,21 @@
 from mylib import *
 import matplotlib.pyplot as plt
 
+# Calculate average radius of curvature for each path segment
+def getradii(xarr, yarr, dt):
+    i = 1
+    radii = []
+    while(i < len(xarr)):
+        n, temp = 1, 0
+        while(xarr[i + 1] != None and yarr[i + 1] != None):
+            temp += np.abs(cdiff(xarr, dt, i)*cdiff2(yarr, dt, i) - cdiff(yarr, dt, i)*cdiff2(xarr, dt, i))/(cdiff(xarr, dt, i)**2 + cdiff(yarr, dt, i)**2)**(3/2)
+            n += 1
+            i += 1
+        if(temp/n != 0.):
+            radii.append(n/temp)
+        i += 3
+    return radii
+
 # Trim data points to specified radii, maintaining the order of points.
 # Separate resulting path segments with None values
 def trimradius(X, Y, R, val):
@@ -39,3 +54,8 @@ if(args.trimplot):
     ax1.plot(data[0,:,2], data[0,:,3])
     ax2.plot(xnew, ynew)
     plt.show()
+
+if(args.getradii):
+    xnew, ynew = trimradius(data[0,:,2], data[0,:,3], data[0,:,5], 560)
+    radii = getradii(xnew, ynew, 1/30)
+    print(radii)
