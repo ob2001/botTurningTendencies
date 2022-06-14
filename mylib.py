@@ -10,16 +10,17 @@ def arguments():
     parser.add_argument('--traj', action = "store_true", default = False)
     parser.add_argument('--volt', action = "store_true", default = False)
     parser.add_argument('--trimplot', action = "store_true", default = False)
+    parser.add_argument('--getradii', action = "store_true", default = False)
     args = parser.parse_args()
     return args
 
 # First-order central difference method
-def cdiff(dx, ys):
-    return [(ys[i + 1] - ys[i - 1])/(2*dx) for i in range(1, len(ys) - 1)]
+def cdiff(ys, dx, i):
+    return (ys[i + 1] - ys[i - 1])/(2*dx)
 
 # Second-order central difference method
-def cdiff2(dx, ys):
-    return [4*(ys[i + 1] - 2*ys[i] + ys[i - 1])/dx**2 for i in range(1, len(ys) - 1)]
+def cdiff2(ys, dx, i):
+    return 4*(ys[i + 1] - 2*ys[i] + ys[i - 1])/dx**2
 
 # Read in all data files for selected bot (for single-bot runs)
 def readbotfile(botnum: str):
