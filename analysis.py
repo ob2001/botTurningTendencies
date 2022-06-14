@@ -7,11 +7,13 @@ def getradii(xarr, yarr, dt):
     radii = []
     while(i < len(xarr)):
         n, temp = 1, 0
+        # Average turning radius over given segment
         while(xarr[i + 1] != None and yarr[i + 1] != None):
             temp += np.abs(cdiff(xarr, dt, i)*cdiff2(yarr, dt, i) - cdiff(yarr, dt, i)*cdiff2(xarr, dt, i))/(cdiff(xarr, dt, i)**2 + cdiff(yarr, dt, i)**2)**(3/2)
             n += 1
             i += 1
-        if(temp/n != 0.):
+        # Create list of average turning radii of each segment
+        if(temp != 0.):
             radii.append(n/temp)
         i += 3
     return radii
