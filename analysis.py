@@ -37,6 +37,8 @@ if(args.traj):
     axs = plt.subplots(math.ceil(len(data)/xdim), xdim, figsize = (18, 9))
     for i in range(n - 1):
         axs[1][math.floor(i/xdim)][i % xdim].plot(data[i,:,2], data[i,:,3])
+    if(args.savefigs):
+        plt.savefig(f"B{args.botnum} - trajectories.png")
     plt.show()
 
 # Plot the voltage of the bot as a funtion of time
@@ -44,6 +46,8 @@ if(args.volt):
     fig = plt.figure(figsize = (12, 9))
     ax1 = fig.add_subplot(111)
     ax1.plot(measurements['cdur'][botdict[args.botnum]], measurements['voltage'][botdict[args.botnum]])
+    if(args.savefigs):
+        plt.savefig(f"B{args.botnum} - voltages.png")
     plt.show()
 
 # Plot trajectory of bot after trimming unwanted data points
@@ -55,6 +59,8 @@ if(args.trimplot):
     ax2 = fig.add_subplot(122)
     ax1.plot(data[0,:,2], data[0,:,3])
     ax2.plot(xnew, ynew)
+    if(args.savefigs):
+        plt.savefig(f"B{args.botnum} - trimmed plot")
     plt.show()
 
 if(args.getradii):

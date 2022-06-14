@@ -11,6 +11,7 @@ def arguments():
     parser.add_argument('--volt', action = "store_true", default = False)
     parser.add_argument('--trimplot', action = "store_true", default = False)
     parser.add_argument('--getradii', action = "store_true", default = False)
+    parser.add_argument('--savefigs', action = "store_true", default = False)
     args = parser.parse_args()
     return args
 
