@@ -12,10 +12,12 @@ def arguments():
     parser.add_argument('--trimplot', action = "store_true", default = False)
     parser.add_argument('--getradii', action = "store_true", default = False)
     parser.add_argument('--plotradii', action = "store_true", default = False)
+    parser.add_argument('--plotavgradii', action = "store_true", default = False)
     parser.add_argument('--savefigs', action = "store_true", default = False)
     args = parser.parse_args()
     return args
 
+"""
 # First-order central difference method
 def cdiff(ys, dx, i):
     return (ys[i + 1] - ys[i - 1])/(2*dx)
@@ -23,6 +25,15 @@ def cdiff(ys, dx, i):
 # Second-order central difference method
 def cdiff2(ys, dx, i):
     return 4*(ys[i + 1] - 2*ys[i] + ys[i - 1])/dx**2
+"""
+
+# Construct the centre of a circle from three points and obtain its radius
+def getradius(xs, ys):
+    mid1, mid2 = [(xs[0] + xs[1])/2, (ys[0] + ys[1])/2], [(xs[1] + xs[2])/2, (ys[1] + ys[2])/2] # Midpoints
+    p1, p2 = -(xs[1] - xs[0])/(ys[1] - ys[0]), -(xs[2] - xs[1])/(ys[2] - ys[1]) # Slopes of perpendicular bisectors
+    xc = (p1*mid1[0] - mid1[1] - p2*mid2[0] + mid2[1])/(p1 - p2) # x coord of centre of circle
+    yc = p1*(xc - mid1[0]) + mid1[1] # y coord of centre of circle
+    return np.sqrt((xc - xs[0])**2 + (yc - ys[0])**2) # Radius of circle
 
 # Read in all data files for selected bot (for single-bot runs)
 def readbotfile(botnum: str):
