@@ -2,6 +2,14 @@ from mylib import *
 import math
 import matplotlib.pyplot as plt
 
+# Trim data points to specified radii, maintaining the order of points.
+# Separate resulting path segments with None values
+def trimradius(X, Y, R, val):
+    xnew, ynew = np.array([[x, y] if r < val else [None, None] for x, y, r in zip(X, Y, R)]).transpose()
+    xnew, ynew = trimnone(xnew), trimnone(ynew)
+
+    return xnew, ynew
+
 # Calculate radius of curvature at each point
 def getradii(xarr, yarr):
     i = 1
@@ -28,15 +36,7 @@ def getradii(xarr, yarr):
             avgradii.append(temp2/n)
         i += 3
     return radii, avgradii
-
-# Trim data points to specified radii, maintaining the order of points.
-# Separate resulting path segments with None values
-def trimradius(X, Y, R, val):
-    xnew, ynew = np.array([[x, y] if r < val else [None, None] for x, y, r in zip(X, Y, R)]).transpose()
-    xnew, ynew = trimnone(xnew), trimnone(ynew)
-
-    return xnew, ynew
-
+    
 args = arguments()
 n, headers, data = readbotfile(args.botnum)
 mheaders1, mheaders2, measurements, botdict = readvolts()
