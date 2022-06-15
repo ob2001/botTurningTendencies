@@ -36,20 +36,29 @@ If any of --getradii, --plotradii, or --plottogether are turned on, the code wil
 The algorithm for finding the radius of curvature geometrically was found this way:
 
 Given three points: $P=(x_0,y_0)$, $Q=(x_1,y_1)$, $R=(x_2,y_2)$
+
 The midpoints between two pairs of points are: $mid_1=\frac{x_0+x_1}{2}$, $mid_2=\frac{x_1+x_2}{2}$
+
 The slopes of the lines between these points are: $m_1=\frac{y_1-y_0}{x_1-x_0}$, $m_2=\frac{y_2-y_1}{x_2-x_1}$
+
 The slopes of the perpendicular bisectors of these lines are: $p_1=-\frac{1}{m_1}$, $p_2=-\frac{1}{m_2}$
+
 We then have a system of two equations to solve for the centre of the circle $C=(x_c,y_c)$:
 
 $(y_c-y_{mid_1})=p_1(x_c-x_{mid_1})$
+
 $(y_c-y_{mid{2}})=p_2(x_c-x_{mid_2})$
 
 Solving, we get:
+
 $x_c=\frac{p_1x_{mid_1}-y_{mid_1}-p_2x_{mid_2}+y_{mid_2}}{p_1-p_2}$
+
 $y_c=p_1(x_c-x_{mid_1})+y_{mid_1}$
 
 And finally, the radius of the circle is given by:
+
 $r=\sqrt{(x_c-x_0)^2+(y_c-y_0)^2}$
 
 The alternative analytic algorithm with derivatives is given by:
+
 $\frac{1}{r}=\frac{\left|x'y''-y'x''\right|}{\left(\left(x'\right)^2+\left(y'\right)^2\right)^{\left(\frac{3}{2}\right)}}$
