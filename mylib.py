@@ -6,6 +6,7 @@ def arguments():
     # Use argparse to parse commandline arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('botnum', nargs = '?', default = 3)
+    parser.add_argument('--cycles', nargs = '*', default = [0, 0])
     parser.add_argument('--all', action = "store_true")
     parser.add_argument('--traj', action = "store_true")
     parser.add_argument('--volt', action = "store_true")
@@ -26,6 +27,18 @@ def cdiff(ys, dx, i):
 def cdiff2(ys, dx, i):
     return 4*(ys[i + 1] - 2*ys[i] + ys[i - 1])/dx**2
 """
+
+def cycles(args, data):
+    start, stop = 0, 0
+    if(args.cycles[0] == "all" or args.all):
+        start, stop = 0, len(data) - 1
+    elif(args.cycles[0] <= len(data) - 1 and not args.cycles[1].exists()):
+        start = stop = args.cycles[0]
+    elif(args.cycles[0] <= len(data) - 1 and args.cycles[1] <= len(data) - 1):
+        start, stop = args.cycles[0], args.cycles[1]
+    else:
+        start = stop = 0
+    return start, stop
 
 # Construct the centre of a circle from three points and obtain its radius
 def getradius(xs, ys):

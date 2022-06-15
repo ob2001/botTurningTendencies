@@ -36,10 +36,11 @@ def getradii(xarr, yarr):
             avgradii.append(temp2/n)
         i += 3
     return radii, avgradii
-    
+
 args = arguments()
 n, headers, data = readbotfile(args.botnum)
 mheaders1, mheaders2, measurements, botdict = readvolts()
+start, stop = cycles(args, data)
 
 """ Plotting """
 # Plot trajectory of chosen bot for all 1-minute periods
@@ -61,36 +62,38 @@ if(args.volt or args.all):
         plt.savefig(f"B{args.botnum} - voltages.png")
     plt.show()
 
-# Trim unwanted data points
-cycle, rtrim = 0, 550
-xnew, ynew = trimradius(data[cycle,:,2], data[cycle,:,3], data[cycle,:,5], rtrim)
+while(start <= stop):
+    # Trim unwanted data points outside of specified radius
+    rtrim = 550
+    xnew, ynew = trimradius(data[start,:,2], data[start,:,3], data[start,:,5], rtrim)
 
-# Plot trajectory of bot after trimming unwanted data points
-if(args.trimplot or args.all):
-    fig = plt.figure(figsize = (18, 9))
-    ax1 = fig.add_subplot(121)
-    ax2 = fig.add_subplot(122)
-    ax1.plot(data[cycle,:,2], data[cycle,:,3])
-    ax2.plot(xnew, ynew)
-    if(args.savefigs or args.all):
-        plt.savefig(f"B{args.botnum} - trimmed plot.png")
-    plt.show()
+    # Plot trajectory of bot after trimming unwanted data points
+    if(args.trimplot or args.all):
+        fig = plt.figure(figsize = (18, 9))
+        ax1 = fig.add_subplot(121)
+        ax2 = fig.add_subplot(122)
+        ax1.plot(data[start,:,2], data[start,:,3])
+        ax2.plot(xnew, ynew)
+        if(args.savefigs or args.all):
+            plt.savefig(f"B{args.botnum} - trimmed plot {start + 1}.png")
+        plt.show()
 
-# Calculate radius of curvature of path segments
-if(args.getradii or args.plotradii or args.all):
-    radii, avgradii = getradii(xnew, ynew)
-    print(np.average(radii))
-    if(args.plotradii or args.all):
-        fig = plt.figure(figsize = (12, 9))
-        ax = fig.add_subplot(111)
-        ax.plot(radii)
-        if(args.savefigs or args.all):
-            plt.savefig(f"B{args.botnum} - radii.png")
-        plt.show()
-    if(args.plotavgradii or args.all):
-        fig = plt.figure(figsize = (12, 9))
-        ax = fig.add_subplot(111)
-        ax.plot(avgradii)
-        if(args.savefigs or args.all):
-            plt.savefig(f"B{args.botnum} - average radii.png")
-        plt.show()
+    # Calculate radius of curvature of path segments
+    if(args.getradii or args.plotradii or args.all):
+        radii, avgradii = getradii(xnew, ynew)
+        print(np.average(radii))
+        if(args.plotradii or args.all):
+            fig = plt.figure(figsize = (12, 9))
+            ax = fig.add_subplot(111)
+            ax.plot(radii)
+            if(args.savefigs or args.all):
+                plt.savefig(f"B{args.botnum} - radii {start + 1}.png")
+            plt.show()
+        if(args.plotavgradii or args.all):
+            fig = plt.figure(figsize = (12, 9))
+            ax = fig.add_subplot(111)
+            ax.plot(avgradii)
+            if(args.savefigs or args.all):
+                plt.savefig(f"B{args.botnum} - average radii {start + 1}.png")
+            plt.show()
+    start += 1
