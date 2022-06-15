@@ -37,10 +37,12 @@ def getradii(xarr, yarr):
         i += 3
     return radii, avgradii
 
+
 args = arguments()
 n, headers, data = readbotfile(args.botnum)
 mheaders1, mheaders2, measurements, botdict = readvolts()
 start, stop = cycles(args, data)
+open(f"B{args.botnum} - avg radii.txt", "w").close()
 
 """ Plotting """
 # Plot trajectory of chosen bot for all 1-minute periods
@@ -96,4 +98,6 @@ while(start <= stop):
             if(args.savefigs or args.all):
                 plt.savefig(f"B{args.botnum} - average radii {start + 1}.png")
             plt.show()
+        with open(f"B{args.botnum} - avg radii.txt", "a") as f:
+            f.write(f"{np.average(radii)}\n")
     start += 1
