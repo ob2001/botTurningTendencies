@@ -61,4 +61,4 @@ $r=\sqrt{(x_c-x_0)^2+(y_c-y_0)^2}$
 
 The alternative analytic algorithm with derivatives is given by:
 
-$\frac{1}{r}=\frac{\left|x'y''-y'x''\right|}{\left(\left(x'\right)^2+\left(y'\right)^2\right)^{\left(\frac{3}{2}\right)}}$
+$\frac{1}{r}=\frac{\left|x'y''-y'x''\right|}{\left(x'^2+y'^2\right)^{\frac{3}{2}}}$
