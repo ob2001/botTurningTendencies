@@ -14,11 +14,11 @@ def arguments():
     parser.add_argument('--getradii', action = "store_true")
     parser.add_argument('--plotradii', action = "store_true")
     parser.add_argument('--plotavgradii', action = "store_true")
+    parser.add_argument('--plottogether', action = "store_true")
     parser.add_argument('--savefigs', action = "store_true")
     args = parser.parse_args()
     return args
 
-"""
 # First-order central difference method
 def cdiff(ys, dx, i):
     return (ys[i + 1] - ys[i - 1])/(2*dx)
@@ -26,7 +26,6 @@ def cdiff(ys, dx, i):
 # Second-order central difference method
 def cdiff2(ys, dx, i):
     return 4*(ys[i + 1] - 2*ys[i] + ys[i - 1])/dx**2
-"""
 
 def cycles(args, data):
     start, stop = 0, 0
@@ -83,7 +82,7 @@ def readvolts():
     data = {'cycle': cycle, 'voltage': volt, 'vuncertainty': vunc, 'dur': dur, 'duncertainty': dunc, 'cdur': cdur}
 
     # Create a dictionary to associate bot numbers with order in list
-    botdict = {"3": 0, "5": 1, "7": 2, "10": 3, "14": 4, "15": 5, "16": 6, "17": 7, "19": 8, "?": 9, "B": 10, "D": 11}
+    botdict = {"3": 0, "5": 1, "7": 2, "10": 3, "14": 4, "15": 5, "16": 6, "17": 7, "19": 8, "U": 9, "B": 10, "D": 11}
     return headersl1, headersl2, data, botdict
 
 # Step through a list which may have multiple occurences of None
