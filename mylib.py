@@ -5,15 +5,15 @@ import numpy as np
 def arguments():
     # Use argparse to parse commandline arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument('botnum', type = str, nargs = '?', default = 3)
-    parser.add_argument('--all', action = "store_true", default = False)
-    parser.add_argument('--traj', action = "store_true", default = False)
-    parser.add_argument('--volt', action = "store_true", default = False)
-    parser.add_argument('--trimplot', action = "store_true", default = False)
-    parser.add_argument('--getradii', action = "store_true", default = False)
-    parser.add_argument('--plotradii', action = "store_true", default = False)
-    parser.add_argument('--plotavgradii', action = "store_true", default = False)
-    parser.add_argument('--savefigs', action = "store_true", default = False)
+    parser.add_argument('botnum', nargs = '?', default = 3)
+    parser.add_argument('--all', action = "store_true")
+    parser.add_argument('--traj', action = "store_true")
+    parser.add_argument('--volt', action = "store_true")
+    parser.add_argument('--trimplot', action = "store_true")
+    parser.add_argument('--getradii', action = "store_true")
+    parser.add_argument('--plotradii', action = "store_true")
+    parser.add_argument('--plotavgradii', action = "store_true")
+    parser.add_argument('--savefigs', action = "store_true")
     args = parser.parse_args()
     return args
 
