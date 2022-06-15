@@ -27,24 +27,38 @@ def cdiff(ys, dx, i):
 def cdiff2(ys, dx, i):
     return 4*(ys[i + 1] - 2*ys[i] + ys[i - 1])/dx**2
 
+# Determine which cycles of the chosen bot to use based on the
+# --cycles command line argument
 def cycles(args, data):
     start, stop = 0, 0
+    # Use all cycles
     if(args.cycles[0] == "all" or args.all):
         start, stop = 0, len(data) - 1
+    # Use only one cycle corresponding user's input number
     elif(args.cycles[0] <= len(data) - 1 and not args.cycles[1].exists()):
         start = stop = args.cycles[0]
+    # Use cycles in the range between specified start and stop values
     elif(args.cycles[0] <= len(data) - 1 and args.cycles[1] <= len(data) - 1):
         start, stop = args.cycles[0], args.cycles[1]
+    # Only use the first cycle
     else:
         start = stop = 0
     return start, stop
 
 # Construct the centre of a circle from three points and obtain its radius
 def getradius(xs, ys):
-    mid1, mid2 = [(xs[0] + xs[1])/2, (ys[0] + ys[1])/2], [(xs[1] + xs[2])/2, (ys[1] + ys[2])/2] # Midpoints
-    p1, p2 = -(xs[1] - xs[0])/(ys[1] - ys[0]), -(xs[2] - xs[1])/(ys[2] - ys[1]) # Slopes of perpendicular bisectors
-    xc = (p1*mid1[0] - mid1[1] - p2*mid2[0] + mid2[1])/(p1 - p2) # x coord of centre of circle
-    yc = p1*(xc - mid1[0]) + mid1[1] # y coord of centre of circle
+    # Construct midpoints
+    mid1, mid2 = [(xs[0] + xs[1])/2, (ys[0] + ys[1])/2], [(xs[1] + xs[2])/2, (ys[1] + ys[2])/2]
+    
+    # Find slopes of perpendicular bisectors
+    p1, p2 = -(xs[1] - xs[0])/(ys[1] - ys[0]), -(xs[2] - xs[1])/(ys[2] - ys[1])
+
+    # x coordinate of centre of circle
+    xc = (p1*mid1[0] - mid1[1] - p2*mid2[0] + mid2[1])/(p1 - p2)
+
+    # y coordinate of centre of circle
+    yc = p1*(xc - mid1[0]) + mid1[1]
+    
     return np.sqrt((xc - xs[0])**2 + (yc - ys[0])**2) # Radius of circle
 
 # Read in all data files for selected bot (for single-bot runs)

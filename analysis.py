@@ -120,6 +120,8 @@ while(start <= stop):
 
         if(args.savefigs):
             plt.savefig(f"B{args.botnum} - {start + 1}.png")
+            
+        ### Leave off to generate plots quickly
         # plt.show()
         
         with open(f"B{args.botnum} - avg radii.txt", "a") as f:
