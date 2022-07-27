@@ -64,20 +64,20 @@ if(args.volt or args.all):
         plt.savefig(f"B{args.botnum} - voltages.png")
     plt.show()
 
-while(start <= stop):
+for i in range(start, stop + 1):
     # Trim unwanted data points outside of specified radius
     rtrim = 550
-    xnew, ynew = trimradius(data[start,:,2], data[start,:,3], data[start,:,5], rtrim)
+    xnew, ynew = trimradius(data[i,:,2], data[i,:,3], data[i,:,5], rtrim)
 
     # Plot trajectory of bot after trimming unwanted data points
     if(args.trimplot or args.all):
         fig = plt.figure(figsize = (18, 9))
         ax1 = fig.add_subplot(121)
         ax2 = fig.add_subplot(122)
-        ax1.plot(data[start,:,2], data[start,:,3])
+        ax1.plot(data[start,:,2], data[i,:,3])
         ax2.plot(xnew, ynew)
         if(args.savefigs or args.all):
-            plt.savefig(f"B{args.botnum} - trimmed plot {start + 1}.png")
+            plt.savefig(f"B{args.botnum} - trimmed plot {i + 1}.png")
         plt.show()
 
     # Calculate radius of curvature of path segments
@@ -89,14 +89,14 @@ while(start <= stop):
             ax = fig.add_subplot(111)
             ax.plot(radii)
             if(args.savefigs or args.all):
-                plt.savefig(f"B{args.botnum} - radii {start + 1}.png")
+                plt.savefig(f"B{args.botnum} - radii {i + 1}.png")
             plt.show()
         if(args.plotavgradii or args.all):
             fig = plt.figure(figsize = (12, 9))
             ax = fig.add_subplot(111)
             ax.plot(avgradii)
             if(args.savefigs or args.all):
-                plt.savefig(f"B{args.botnum} - average radii {start + 1}.png")
+                plt.savefig(f"B{args.botnum} - average radii {i + 1}.png")
             plt.show()
         with open(f"B{args.botnum} - avg radii.txt", "a") as f:
             f.write(f"{np.average(radii)}\n")
@@ -112,19 +112,17 @@ while(start <= stop):
         ax3 = fig.add_subplot(223, title = "Voltage curve for entire run with current voltage highlighted")
         ax4 = fig.add_subplot(224, title = "Turning radius of bot for 1 minute period. Average: $\\bar{r}_{turn} = %s$" %(avg))
 
-        ax1.plot(data[start,:,2], data[start,:,3])
+        ax1.plot(data[i,:,2], data[i,:,3])
         ax2.plot(xnew, ynew)
         ax3.plot(measurements['cdur'][botdict[args.botnum]], measurements['voltage'][botdict[args.botnum]])
-        ax3.plot(measurements['cdur'][botdict[args.botnum]][start], measurements['voltage'][botdict[args.botnum]][start], marker = 'o')
+        ax3.plot(measurements['cdur'][botdict[args.botnum]][i], measurements['voltage'][botdict[args.botnum]][i], marker = 'o')
         ax4.plot(radii)
 
         if(args.savefigs):
-            plt.savefig(f"B{args.botnum} - {start + 1}.png")
+            plt.savefig(f"B{args.botnum} - {i + 1}.png")
             
         ### Leave off to generate plots quickly
         # plt.show()
         
         with open(f"B{args.botnum} - avg radii.txt", "a") as f:
             f.write(f"{avg}\n")
-
-    start += 1
